@@ -14,7 +14,7 @@ class AddViewController: UIViewController, UITextFieldDelegate, UIPickerViewDele
     @IBOutlet var datePicker: UIDatePicker!
     @IBOutlet weak var denemeLabel: UILabel!
     @IBOutlet weak var denemePicker: UIPickerView!
-    
+    //picker view seçeneklerinden oluşan dizi
     let alerts = ["At time of event","5 minutes before", "10 minutes before", "30 minutes before","1 hour before", "2 hours before"]
     
     public var completion: ((String, String, Date) -> Void)?
@@ -23,26 +23,29 @@ class AddViewController: UIViewController, UITextFieldDelegate, UIPickerViewDele
         super.viewDidLoad()
         titleField.delegate = self
         bodyField.delegate = self
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSaveButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSaveButton)) //save button tanımlanması
         denemePicker.delegate = self
        denemePicker.dataSource = self
-        denemeLabel.text = alerts[0]
+        denemeLabel.text = alerts[0] //başlangıçta pickerview 0. index gösterilir
     }
+    //picker view section sayısı
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
             return 1
         }
-    
+    //picker view seçenek sayısı
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             return alerts.count
         }
+    //picker view satırlarında gösterilecek değer
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
          return alerts[row]
     }
-    
+    //picker viewdan seçilen değerin okunması ve labela yazılması
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         denemeLabel.text = alerts[row]
     }
 
+    //ekle butonuna basıldığında bildirime gönderilecek datei belirler. Seçilen seçeneğe göre dakika, saat azaltır.
     @objc func didTapSaveButton() {
         if let titleText = titleField.text, !titleText.isEmpty,
             let bodyText = bodyField.text, !bodyText.isEmpty {
